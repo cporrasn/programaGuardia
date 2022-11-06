@@ -12,12 +12,13 @@ from procesarGuardia import eliminarEstudiantesPlanificados, obtenerPersonasPorP
 from operator import itemgetter
 import numpy as np
 
-
+#seleccion de los estudiantes con sus parejas
 estudiantes,parejas,guardiaActual= pyLoadData.obtenerListadosEstudiantes()
 #for g in estudiantes:
 #    print(g.Nombre+" "+str(g.Cantidad))
 
 #print("//////////////////////////////")
+#seleccion de los trabajadores con sus parejas
 trabajadores,parejasT= pyLoadData.obtenerListadosTrabajadores(guardiaActual) #aqui el guardia actual es solo para los nombres, porque desde obtenerListadosEstudiantes ya se cargan todos los trabajadores
 
 #for g in trabajadores:
@@ -28,7 +29,6 @@ trabajadores,parejasT= pyLoadData.obtenerListadosTrabajadores(guardiaActual) #aq
 #cantidadFemenino=classFile.contarBySexo(estudiantes,"FEMENINO")
 #cantidadMasculino=classFile.contarBySexo(estudiantes,"MASCULINO")
 
-#50 dias varones, 18 hembras
 
 monthToManage=[9,10,11,12] #en 12 es hasta el día 23
 year=[2022]
