@@ -14,11 +14,8 @@ import numpy as np
 
 #seleccion de los estudiantes con sus parejas
 #esto seria lo primero prueba
-<<<<<<< HEAD
 #probando en la rama master
-=======
 #este codigo es para probar el tema de la ramaPrueba
->>>>>>> ramaPrueba
 estudiantes,parejas,guardiaActual= pyLoadData.obtenerListadosEstudiantes()
 #for g in estudiantes:
 #    print(g.Nombre+" "+str(g.Cantidad))
