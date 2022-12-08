@@ -1,6 +1,6 @@
 import datetime
 from classFile import GuardiaTurno
-from pyLoadData import buscarPersona
+from LoadData import buscarPersona
 
 """
 #NO SE USA

@@ -6,16 +6,16 @@ Created on Sun Apr 10 18:46:51 2022
 """
 import datetime
 
-import pyLoadData
-from procesarGuardia import planificarGuardiaNoPlanificadosPorParejas
+import LoadData
+from procesarGuardia import planificarGuardiaPorParejas
 from operator import itemgetter
 import numpy as np
 
 #seleccion de los estudiantes con sus parejas
-estudiantes,parejas,guardiaActual= pyLoadData.obtenerListadosEstudiantes()
+estudiantes,parejas,guardiaActual= LoadData.obtenerListadosEstudiantes()
 
 #seleccion de los trabajadores con sus parejas
-trabajadores,parejasT= pyLoadData.obtenerListadosTrabajadores(guardiaActual) #aqui el guardia actual es solo para los nombres, porque desde obtenerListadosEstudiantes ya se cargan todos los trabajadores
+trabajadores,parejasT= LoadData.obtenerListadosTrabajadores(guardiaActual) #aqui el guardia actual es solo para los nombres, porque desde obtenerListadosEstudiantes ya se cargan todos los trabajadores
 
 #monthToManage=[9,10,11,12] #en 12 es hasta el día 23
 #year=[2022]
@@ -65,7 +65,7 @@ personasTotal.reverse()
 
 guardiaActual=planificarGuardiaPorParejas(dictionarie,personasTotal,monthToManage,days,year,guardiaActual)
 
-pyLoadData.savePlanificacion(guardiaActual)
+LoadData.savePlanificacion(guardiaActual)
 
 print("Terminado")
 
