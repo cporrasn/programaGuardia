@@ -10,16 +10,19 @@ class Persona:
         self.Nombre=Nombre
         self.Grupo=Grupo
         self.Sexo=Sexo
-        self.NombreSimilar = NombreSimilar
-        self.Similitud=similitud
-        self.Estado=estado
-        self.Tipo=tipo
-        self.Cantidad = cantidad
+        self.NombreSimilar = NombreSimilar #Nombre con la mayor distancia de damerau
+        self.Similitud=similitud   #distance de Damerau con el nombre del ReporteEstudiantes.xls
+        self.Estado=estado  #PLANTILLA O ACTIVO
+        self.Tipo=tipo  #TRABAJADOR O ESTUDIANTE
+        self.Cantidad = cantidad  #cantidad de guardias realizadas
         self.Pareja=pareja
+
+    def isActive(self):
+        return (self.tipo == "ESTUDIANTE" and self.estado=="ACTIVO") or (self.tipo== "TRABAJADOR" and self.estado=="PLANTILLA")
 
 class GuardiaTurno:
     def __init__(self,persona,Fecha,Horario):
         self.persona=persona
-        self.Fecha=Fecha  #convertir en un date
+        self.Fecha=Fecha  
         self.Horario=Horario
 

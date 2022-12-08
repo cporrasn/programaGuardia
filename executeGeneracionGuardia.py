@@ -7,40 +7,20 @@ Created on Sun Apr 10 18:46:51 2022
 import datetime
 
 import pyLoadData
-from procesarGuardia import eliminarEstudiantesPlanificados, obtenerPersonasPorPlanificar, \
-    planificarGuardiaNoPlanificados, planificarGuardiaNoPlanificadosPorParejas
+from procesarGuardia import planificarGuardiaNoPlanificadosPorParejas
 from operator import itemgetter
 import numpy as np
 
 #seleccion de los estudiantes con sus parejas
-#esto seria lo primero prueba
-<<<<<<< HEAD
-#probando en la rama master
-=======
-#este codigo es para probar el tema de la ramaPrueba
->>>>>>> ramaPrueba
 estudiantes,parejas,guardiaActual= pyLoadData.obtenerListadosEstudiantes()
-#for g in estudiantes:
-#    print(g.Nombre+" "+str(g.Cantidad))
 
-#print("//////////////////////////////")
 #seleccion de los trabajadores con sus parejas
 trabajadores,parejasT= pyLoadData.obtenerListadosTrabajadores(guardiaActual) #aqui el guardia actual es solo para los nombres, porque desde obtenerListadosEstudiantes ya se cargan todos los trabajadores
 
-#for g in trabajadores:
-#    print(g.Nombre+" "+str(g.Cantidad))
-
-#print("//////////////////////////////")
-
-#cantidadFemenino=classFile.contarBySexo(estudiantes,"FEMENINO")
-#cantidadMasculino=classFile.contarBySexo(estudiantes,"MASCULINO")
-
-
-monthToManage=[9,10,11,12] #en 12 es hasta el día 23
-year=[2022]
-
-#monthToManage=[1,2,3,4,5,6] #en 12 es hasta el día 23
-#year=[2023]
+#monthToManage=[9,10,11,12] #en 12 es hasta el día 23
+#year=[2022]
+monthToManage=[1,2,3,4,5,6,7] #en 7 es hasta el día 21
+year=[2023]
 
 days=32
 
@@ -71,20 +51,32 @@ dictionarie={"Monday":[["8:00 pm - 8:00 am"],
               ["9:00 am - 2:00 pm",
                "2:00 pm - 7:00 pm"]]}
 
-#quito a los estudiantes del listado original a los que ya se les haya planificado una guardia
-estudiantesUsados,trabajadoresUsados=eliminarEstudiantesPlanificados(guardiaActual,estudiantes,trabajadores)
-#for g in guardiaActual:
-#    print(g.Fecha+" "+g.persona.Nombre)
-#est 439, trab 73
-#print("//////////////////////////////")
-"""porPlanificarCantidad=[]
+print("//////////////////////////////")
+personasTotal=estudiantes
+personasTotal.extend(trabajadores)
+porPlanificarCantidad=[]
 
-porPlanificarCantidad=[trabajadores[i].Cantidad for i in range(len(trabajadores))]
+porPlanificarCantidad=[personasTotal[i].Cantidad for i in range(len(personasTotal))]
 interest_population_sorted_index = np.argsort(porPlanificarCantidad)[::-1]
 
 porPlanificarCantidad = list(itemgetter(*interest_population_sorted_index)(porPlanificarCantidad))
-trabajadores = list(itemgetter(*interest_population_sorted_index)(trabajadores))
-trabajadores.reverse()"""
+personasTotal = list(itemgetter(*interest_population_sorted_index)(personasTotal))
+personasTotal.reverse()
+
+guardiaActual=planificarGuardiaPorParejas(dictionarie,personasTotal,monthToManage,days,year,guardiaActual)
+
+pyLoadData.savePlanificacion(guardiaActual)
+
+print("Terminado")
+
+#////////////////////////CODIGO VIEJO//////////////////////////////
+"""
+#quito a las personas del listado original a los que ya se les haya planificado una guardia
+estudiantesUsados,trabajadoresUsados=eliminarPersonasPlanificadas(guardiaActual,estudiantes,trabajadores)
+#for g in guardiaActual:
+#    print(g.Fecha+" "+g.persona.Nombre)
+
+#print("//////////////////////////////")
 
 #Tomo las parejas de los trabajadores que hay por planificar
 porPlanificarT=obtenerPersonasPorPlanificar(parejasT, trabajadores)
@@ -110,28 +102,9 @@ porPlanificar.extend(porPlanificarE)
 #se genera la guardia de los que no han tenido guardia nunca
 guardiaActual=planificarGuardiaNoPlanificados(dictionarie,porPlanificar,monthToManage,days,year,guardiaActual,estudiantes,trabajadores)
 
-"""for g in trabajadores:
+for g in trabajadores:
     print(g.Nombre + " " + str(g.Cantidad)+ " "+ g.Tipo)
 
-
-print("//////////////////////////////")"""
-personasTotal=estudiantes
-personasTotal.extend(trabajadores)
-porPlanificarCantidad=[]
-
-porPlanificarCantidad=[personasTotal[i].Cantidad for i in range(len(personasTotal))]
-interest_population_sorted_index = np.argsort(porPlanificarCantidad)[::-1]
-
-porPlanificarCantidad = list(itemgetter(*interest_population_sorted_index)(porPlanificarCantidad))
-personasTotal = list(itemgetter(*interest_population_sorted_index)(personasTotal))
-personasTotal.reverse()
-
-guardiaActual=planificarGuardiaNoPlanificadosPorParejas(dictionarie,personasTotal,monthToManage,days,year,guardiaActual)
-
-
-pyLoadData.savePlanificacion(guardiaActual)
-#se planifica la guardia empezando desde el inicio
-
-print("Terminado")
+"""
 
 

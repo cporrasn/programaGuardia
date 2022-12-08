@@ -1,0 +1,57 @@
+DETALLES DE CONFIGURACIÓN:
+ 1- En las función diasFeriados(mes, dia) del fichero procesarGuardia.py, se deben actualizar los días según el año en curso, especialmente los de receso docente, la semana de la victoria, inicio del curso escolar, y fin del curso escolar. 
+ 2- Reglas de los meses:
+	#En el mes 11, 3 y 6 no hya días feriados, se planifica todo
+    #En el mes 9 hay que hacer la guardia a partir del primer día de clases
+    #En el mes 12, se planifica hasta el día anterior al del receso docente
+    #En el mes 1 se planifica a partir del primer día de clases
+    #En el mes 4 se excluye la semana de la victoria
+    #En el mes 2 se excluye el 14 de febrero
+    #En el mes 10 se excluye el 10 de octubre
+    #En el mes 5 se excluye el 1ro de mayo
+    #En el mes 7 se planifica hasta el día antes de las vacaciones
+    #El mes 8 se planifica a mano, al igual que la semana anterior de empezar el curso que es laborable, y se planifica con trabajadores
+ 3- Los turnos de guardia están fijos, si se desean cambiar se debe cambiar la variable dictionarie en executeGeneracionGuardia, y además, modificar los métodos de crearTurnoEstudiante y crearTurnoTrabajador del fichero procesarGuardia, para las validaciones de los horarios. 
+ 4- No está validado que hayan parejas repetidas ni que hayan 2 estudiantes en más de una pareja. El fichero de paerejas no debe tener este problema. 
+
+Ficheros:
+
+ReporteEstudiantes.xls:
+	- Debe tener la estructura: Identidad	Nombre	Apellidos	Estado	Grupo	Sexo
+	- Se usa para cargar todos los estudiantes de la facultad, tanto activos, como otros.
+	- Cuando no se quiera tomar en cuenta un estudiante para la guardia se le coloca en la columna de Estado: Baja
+
+Reporte Trabajadores.xls	
+	- Debe tener la estructura: Nombre y Apellidos	ESTADO
+	- Se usa para cargar todos los trabajadores de la facultad
+	- Los jubilados y cuadros no hacen guardia obrera, a menos que lo pidan, por lo que se deben eliminar del listado
+	
+personasparejas.csv:
+	- Contienen las parejas de los estudiantes, las parejas deben ser del mismo sexo.
+	- Debe tener la estructura: Nombre y apellidos	Nombre Similar	Similitud	Grupo	Sexo	Estado
+	- Consiste en una columna que debe tener el nombre de los estudiantes exactamente como está escrito en el fichero ReporteEstudiantes.xls.
+	- Dos filas de cada fichero son una pareja, por lo que el número total de filas, sin contar el encabezado, debe ser par.
+	- Con nuevas parejas llenar los datos de ambos, y el valor de 1.0 en la columna de Similitud.
+	
+personasparejasT.csv:
+	- Contienen las parejas de los trabajadores.
+	- Debe tener la estructura: Nombre y apellidos	Nombre Similar	Similitud	Grupo	Sexo	Estado
+	- Consiste en una columna que debe tener el nombre de los trabajadores exactamente como está escrito en el fichero ReporteTrabajadores.xls.
+	- Dos filas de cada fichero son una pareja, por lo que el número total de filas, sin contar el encabezado, debe ser par.
+	- Con nuevas parejas llenar los datos de ambos, y el valor de 1.0 en la columna de Similitud, dejar vacíos el Grupo y Sexo.
+	
+guardiaTotal.csv:
+	- Contiene la guardia completa desde el inicio en enero del 2022.
+	- Tiene una estructura: Fecha	Horario	Nombre y apellidos	Grupo	Entrada	Salida
+	- La columna de Grupo se geenra pero es innecesaria.
+	- Las fechas de la guardia no están ordenadas completamente, pero eso no influye.
+	- Al trancurrir las guardias en tiempo real, es neecsario eliminar de este fichero las filas de aquellos estudiantes o trabajadores que no fueron a la guardia, para que en la siguiente planificación vuelvan a ser considerados.
+	- Si se realiza alguna guardia obrera manuelmente, esta debe ser incluida en este fichero para ser tomada en cuenta, y los nombres deben coincidir con los guardados en ReporteEstudiantes.xls y ReporteTrabajadores.xls
+	
+guardiaNueva.csv:
+	- Consiste en la guardia nueva que se genera a partir de la última fecha contenida en guardialTotal.csv
+	- Tiene una estructura: Fecha	Horario	Nombre y apellidos	Grupo	Entrada	Salida
+	- Luego de haber validado que es correcta, el fichero guardiaTotal.csv debe ser sustituido por este, simplemente se guarda el fichero guardiaTotal.csv viejo, y a este se le cambia el nombre a guardiaTotal.csv
+	
+
+

@@ -1,11 +1,6 @@
 from fastDamerauLevenshtein import damerauLevenshtein
-from json import load
-import os
-import re
 import csv
-import random
 import pandas as pd
-import datetime
 from classFile import GuardiaTurno,Persona
 
 excepciones=["ENMANUEL DE JESUS DIAZ ALVAREZ","DENZEL ISRAEL COMPANIONI MIRANDA"]
@@ -40,16 +35,15 @@ def load_dataTrabajadores(filename):
 
 def load_dataParejas(filename):
     with open(filename, "r", encoding='Latin1') as file:
-        estudiantes = []
+        listado = []
         for line in csv.reader(file, delimiter=';'):
             try:
                 if line[0]!="Nombre y apellidos":
                     Nombre=line[0].upper()
-                    estudiantes.append(Persona(Nombre,"","","",0,"","ESTUDIANTE",0,None))
+                    listado.append(Persona(Nombre,"","","",0,"","",0,None))
             except ValueError:
                 pass
-    return estudiantes
-
+    return listado
 
 def load_dataGuardiaActual(filename):
     with open(filename, "r", encoding='Latin1') as file:
@@ -108,15 +102,6 @@ def buscarPersona(personas,persona):
                break
         return elementSimilar
 
-def saveCSVPersonas(personas,tipo):
-    results = [['Nombre y apellidos','Nombre Similar','Similitud','Grupo','Sexo','Estado']]
-    for per in personas:
-        if per.Estado=="ACTIVO" or per.Estado=="PLANTILLA":
-            results.append([per.Nombre,per.NombreSimilar,str(per.Similitud),per.Grupo,per.Sexo,per.Estado])
-    with open("personas"+tipo+".csv", "w", newline='') as f:
-        writer = csv.writer(f, delimiter=";")
-        writer.writerows(results)
-
 def savePlanificacion(guardia):
     results = [['Fecha','Horario','Nombre y apellidos','Grupo','Entrada','Salida']]
     for per in guardia:
@@ -125,7 +110,6 @@ def savePlanificacion(guardia):
             if per.persona.Tipo == "ESTUDIANTE":
                 grupo=str(per.persona.Grupo)
             results.append([per.Fecha,per.Horario,per.persona.Nombre,grupo])
-
         #print(per.persona.Nombre+";"+per.persona.NombreSimilar+";"+str(per.persona.Similitud)+";"+per.persona.Estado)
     with open("guardiaNueva.csv", "w", newline='') as f:
         writer = csv.writer(f, delimiter=";")
@@ -141,7 +125,7 @@ def adicionarPareja(personas,parejas):
         j = 0
         while j < len(personas):
             if personas[j].Nombre == parejas[i].Nombre:
-                if personas[j].Pareja is None:
+                if personas[j].Pareja is None and buscarPersona(personas,parejas[i + 1]) is not None:
                     personas[j].Pareja=parejas[i + 1]
                 z = 0
                 while z < len(personas):
@@ -154,10 +138,11 @@ def adicionarPareja(personas,parejas):
         i += 2
 
 def obtenerListadosEstudiantes():
-    estudiantes=load_dataEstudiantes("ReporteEstudiantes.xls")
-    guardiaActual = load_dataGuardiaActual("guardiaTotal.csv")
-    parejas=load_dataParejas("personasparejas.csv")
+    estudiantes=load_dataEstudiantes("ReporteEstudiantes.xls") #carga de los estudiantes, deben ser todos, y los que no se quieran tomar en cuenta se les pone BAJA
+    guardiaActual = load_dataGuardiaActual("guardiaTotal.csv") #carga de toda la guardia, tanto trabajadores como estudiantes deben estar en el mismo csv
+    parejas=load_dataParejas("personasparejas.csv")  #carga de parejas de estudiantes
 
+    #procesamiento de estudiantes donde se les añade el sexo, se les establecen los nombres correctamente y se procesan las parejas
     addGroupAndSex(estudiantes,parejas)
     setNamesGuardiaActual(estudiantes,guardiaActual)
     adicionarPareja(estudiantes,parejas)
@@ -176,14 +161,3 @@ def obtenerListadosTrabajadores(guardiaActual):
 
     return trabajadores,parejas
 
-
-#pintarEstudiantes(estudiantes)
-
-"""print(len(guardiaActual))
-print(len(parejas))
-print(len(estudiantes))
-
-print("")"""
-"""trabajadores=load_dataTrabajadores("Trabajadores.xlsx")
-parejasT=load_dataParejas("Trabajadores.csv")
-addGroupAndSex(trabajadores,parejasT)"""

@@ -8,6 +8,7 @@ import pandas as pd
 import datetime
 from classFile import GuardiaTurno,Persona
 
+#ESTE FICHERO ES ÚNICAMENTE PARA CUANDO SE DESEE VOLVER A PROCESAR LOS NOMBRES DE LOS ESTUDIANTES Y TRABAJADORES POR ERRORES EN LA ESCRITURA
 
 def load_dataEstudiantes(filename):
     xls = pd.ExcelFile(filename)
