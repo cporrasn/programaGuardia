@@ -1,9 +1,12 @@
+from datetime import datetime, date
+
+
 from fastDamerauLevenshtein import damerauLevenshtein
 import csv
 import pandas as pd
 from classFile import GuardiaTurno,Persona
 
-excepciones=["ENMANUEL DE JESUS DIAZ ALVAREZ","DENZEL ISRAEL COMPANIONI MIRANDA"]
+excepciones=["ENMANUEL DE JESUS DIAZ ALVAREZ"]
 
 def load_dataEstudiantes(filename):
     xls = pd.ExcelFile(filename)
@@ -17,8 +20,9 @@ def load_dataEstudiantes(filename):
     for i in range(len(nombres)):
         if estado[i].upper()=="ACTIVO":
             Nombre=nombres[i].upper()+' '+apellidos[i].upper()
+            Nombre=Nombre.replace('  ', ' ')
             if excepciones.count(Nombre)==0:
-                estudiantes.append(Persona(Nombre,grupo[i],sexo[i].upper(),"",0,estado[i].upper(),"ESTUDIANTE",0,None))
+                estudiantes.append(Persona(Nombre,grupo[i],sexo[i].upper(),"",0,estado[i].upper(),"ESTUDIANTE",0,None,date.today()))
     return estudiantes
 
 def load_dataTrabajadores(filename):
@@ -30,7 +34,8 @@ def load_dataTrabajadores(filename):
     for i in range(len(nombres)):
         if estado[i]=="PLANTILLA":
             Nombre=nombres[i].upper()
-            trabajadores.append(Persona(Nombre,"","","",0,estado[i],"TRABAJADOR",0,None))
+            Nombre=Nombre.replace('  ', ' ')
+            trabajadores.append(Persona(Nombre,"","","",0,estado[i],"TRABAJADOR",0,None,date.today()))
     return trabajadores
 
 def load_dataParejas(filename):
@@ -40,7 +45,8 @@ def load_dataParejas(filename):
             try:
                 if line[0]!="Nombre y apellidos":
                     Nombre=line[0].upper()
-                    listado.append(Persona(Nombre,"","","",0,"","",0,None))
+                    Nombre=Nombre.replace('  ', ' ')
+                    listado.append(Persona(Nombre,"","","",0,"","",0,None,date.today()))
             except ValueError:
                 pass
     return listado
@@ -49,11 +55,11 @@ def load_dataGuardiaActual(filename):
     with open(filename, "r", encoding='Latin1') as file:
         guardiaActual = []
         for line in csv.reader(file, delimiter=';'):
-            try:
+            #try:
                 if line[0]!="Fecha" and line[2]!="":
-                    guardiaActual.append(GuardiaTurno(Persona(line[2].upper(),"","","",0,"","",1,None),line[0],line[1]))
-            except ValueError:
-                pass
+                    guardiaActual.append(GuardiaTurno(Persona(line[2].upper(),"","","",0,"","",1,None,datetime.strptime(line[0],'%d/%m/%Y')),datetime.strptime(line[0],'%d/%m/%Y'),line[1]))
+            #except ValueError:
+            #    pass
     return guardiaActual
 
 def addGroupAndSex(personas,parejas):
@@ -88,8 +94,8 @@ def setNamesGuardiaActual(personas,guardiaActual):
                guardia.persona.Similitud = similarity
                guardia.persona.Estado = elementSimilar.Estado
                guardia.persona.Tipo = elementSimilar.Tipo
-               guardia.persona.Cantidad = elementSimilar.Cantidad
                elementSimilar.Cantidad += 1
+               elementSimilar.FechaUltimaGuardia =guardia.Fecha
                #personas.remove(elementSimilar)
                break
 

@@ -24,7 +24,8 @@ ReporteEstudiantes.xls:
 Reporte Trabajadores.xls	
 	- Debe tener la estructura: Nombre y Apellidos	ESTADO
 	- Se usa para cargar todos los trabajadores de la facultad
-	- Los jubilados y cuadros no hacen guardia obrera, a menos que lo pidan, por lo que se deben eliminar del listado
+	- Los jubilados y cuadros no hacen guardia obrera, a menos que lo pidan, por lo que se deben eliminar del listado.
+	- Siempre que haya una nueva pareja de guardia, se debe verificar que ambos trabajadores est'an en el listado.
 	
 personasparejas.csv:
 	- Contienen las parejas de los estudiantes, las parejas deben ser del mismo sexo.

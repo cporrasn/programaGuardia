@@ -6,7 +6,7 @@ def contarBySexo(estudiantes,sexo):
     return count
 
 class Persona:
-    def __init__(self,Nombre,Grupo,Sexo,NombreSimilar,similitud,estado,tipo,cantidad,pareja):
+    def __init__(self,Nombre,Grupo,Sexo,NombreSimilar,similitud,estado,tipo,cantidad,pareja,fechaUltimaGuardia):
         self.Nombre=Nombre
         self.Grupo=Grupo
         self.Sexo=Sexo
@@ -16,6 +16,7 @@ class Persona:
         self.Tipo=tipo  #TRABAJADOR O ESTUDIANTE
         self.Cantidad = cantidad  #cantidad de guardias realizadas
         self.Pareja=pareja
+        self.FechaUltimaGuardia=fechaUltimaGuardia
 
     def isActive(self):
         return (self.tipo == "ESTUDIANTE" and self.estado=="ACTIVO") or (self.tipo== "TRABAJADOR" and self.estado=="PLANTILLA")

@@ -173,7 +173,7 @@ def diasFeriados(mes, dia):
         return True
     return False
 
-def planificarGuardiaNoPlanificadosPorParejas(dictionarie,porPlanificar,monthToManage,days,year,guardiaActual):
+def planificarGuardiaPorParejas(dictionarie,porPlanificar,monthToManage,days,year,guardiaActual):
     if len(porPlanificar) > 0:
         for i in monthToManage:
             for day in range(1, days):
@@ -187,7 +187,7 @@ def planificarGuardiaNoPlanificadosPorParejas(dictionarie,porPlanificar,monthToM
                         j = 0
                         jaux=[]
                         final = len(dictionarie[date.strftime("%A")][0]) * 2
-                        if date.strftime("%A") != "Saturday" and date.strftime("%A") != "Sunday":
+                        if date.strftime("%A") == "Saturday" and date.strftime("%A") == "Sunday":
                             final += 2  #SI SON FINES DE SEMANA SE ADICIONAN 2 TURNOS MÁS, YA QUE COMO MAXIMO UN FIN DE SEMANA TENDRA 6 TURNOS
                         while count < final and j < len(porPlanificar):
                             if count % 2 != 0 and \
