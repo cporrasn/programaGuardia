@@ -55,21 +55,8 @@ print("//////////////////////////////")
 personasTotal=estudiantes
 personasTotal.extend(trabajadores)
 
-porPlanificarCantidad=[personasTotal[i].Cantidad for i in range(len(personasTotal))]
-porPlanificarCantidad1=[personasTotal[i].FechaUltimaGuardia for i in range(len(personasTotal))]
-
 selection_criterion = lambda x:(x.Cantidad, x.FechaUltimaGuardia)
 personasTotal = sorted(personasTotal, key=selection_criterion)
-
-porPlanificarCantidad=[personasTotal[i].Cantidad for i in range(len(personasTotal))]
-porPlanificarCantidad1=[personasTotal[i].FechaUltimaGuardia for i in range(len(personasTotal))]
-
-"""interest_population_sorted_index = np.argsort(porPlanificarCantidad)[::-1]
-
-porPlanificarCantidad = list(itemgetter(*interest_population_sorted_index)(porPlanificarCantidad))
-personasTotal = list(itemgetter(*interest_population_sorted_index)(personasTotal))
-
-personasTotal.reverse()"""
 
 guardiaActual=planificarGuardiaPorParejas(dictionarie,personasTotal,monthToManage,days,year,guardiaActual)
 
