@@ -67,7 +67,7 @@ def addGroupAndSex(personas,parejas):
         similarity=0
         for per in personas:
            simWT = damerauLevenshtein(pareja.Nombre, per.Nombre, similarity=True)
-           if simWT == 1.0:
+           if simWT >=0.90:
                elementSimilar = per
                pareja.NombreSimilar=pareja.Nombre
                pareja.Nombre=elementSimilar.Nombre
@@ -85,7 +85,7 @@ def setNamesGuardiaActual(personas,guardiaActual):
         similarity=0
         for per in personas:
            simWT = damerauLevenshtein(guardia.persona.Nombre, per.Nombre, similarity=True)
-           if simWT==1.0:
+           if simWT>=0.90:
                elementSimilar=per
                guardia.persona.NombreSimilar=guardia.persona.Nombre
                guardia.persona.Nombre=elementSimilar.Nombre
@@ -103,7 +103,7 @@ def buscarPersona(personas,persona):
         elementSimilar=None
         for per in personas:
            simWT = damerauLevenshtein(persona.Nombre, per.Nombre, similarity=True)
-           if simWT == 1.0:
+           if simWT >=0.90:
                elementSimilar = per
                break
         return elementSimilar
